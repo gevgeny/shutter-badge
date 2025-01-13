@@ -94,4 +94,4 @@ class ShutterBadgeRing extends LitElement {
     }
 }
 
-customElements.define("shutter-badge-ring1", ShutterBadgeRing);
+customElements.define("shutter-badge-ring", ShutterBadgeRing);
