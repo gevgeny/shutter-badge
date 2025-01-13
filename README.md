@@ -1,6 +1,8 @@
 # Shutter Badge for Home Assistant
 
 A custom Home Assistant badge to control shutters (e.g., roller shutters) directly from the dashboard. The badge allows for simple open and close operations with a user-friendly interface.
+![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](./demo.png)
+
 
 ---
 
