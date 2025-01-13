@@ -3,15 +3,14 @@ import shutterBadgeSheet from './shutter-badge.css' with { type: "css" };
 import './shutter-badge-ring.js';
 
 function resolveCSSExpression(root, variableName, property = 'width') {
-    // Create a temporary element
+
     const tempElement = document.createElement('div');
     tempElement.style.setProperty(property, `var(${variableName})`);
     root.appendChild(tempElement);
   
-    // Get the resolved value
     const resolvedValue = getComputedStyle(tempElement).getPropertyValue(property).trim();
   
-    // Clean up
+
     root.removeChild(tempElement);
   
     return resolvedValue;
@@ -43,17 +42,13 @@ class ShutterBadge extends LitElement {
     get _isSwitchUpOn () { return this._isUpPressed; }
     set _isSwitchUpOn (value) {
         this._isUpPressed = value;
-        this.hass.callService('switch', value ? 'turn_on' : 'turn_off', {
-            entity_id: this.config.switch_up,
-        });
+        this.turnSwitch(this.config.switch_up, value);
     }
 
     get _isSwitchDownOn () { return this._isDownPressed; }
     set _isSwitchDownOn (value) {
         this._isDownPressed = value;
-        this.hass.callService('switch', value ? 'turn_on' : 'turn_off', {
-            entity_id: this.config.switch_down,
-        });
+        this.turnSwitch(this.config.switch_down, value);
     }
 
     render() {
@@ -151,13 +146,19 @@ class ShutterBadge extends LitElement {
         }
         this.config = {
             ...config,
-            switch_up: 'switch.test_switch_1',
-            switch_down: 'switch.test_switch_2',
             label: config.label ?? 'Shutter',
             duration: config.duration ?? 10,
             color: config.color ?? 'white',
         };
     }
+
+    turnSwitch(entityId, value) {
+        const domain = entityId.split('.')[0];
+
+        this.hass.callService(domain, value ? 'turn_on' : 'turn_off', {
+            entity_id: entityId,
+        });
+    }
 }
 
-customElements.define("shutter-badge1", ShutterBadge);
+customElements.define("shutter-badge", ShutterBadge);
