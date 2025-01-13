@@ -52,7 +52,10 @@ class ShutterBadge extends LitElement {
     }
 
     render() {
-        console.log('render', this._isUpPressed, this._isDownPressed);
+        const switchUpState = this.hass?.states?.[this.config.switch_up];
+        const switchDownState = this.hass?.states?.[this.config.switch_down];
+        const lastChangedUp = new Date(switchUpState?.last_changed);
+        const lastChangedDown = new Date(switchDownState?.last_changed);
         const controlSize = parseInt(resolveCSSExpression(this.shadowRoot, "--badge-control-size"), 10);
 
         this.style.setProperty('--badge-color', this.config.color);
@@ -67,7 +70,7 @@ class ShutterBadge extends LitElement {
                 ${this.config.icon ? html`<ha-icon slot="icon" icon="${this.config.icon}" />` : ''}
                 <div class="info">
                     <div class="label">${this.config.label}</div>
-                    <div class="text">Idle</div>
+                    <div class="text">${lastChangedUp > lastChangedDown ? 'Up' : 'Down'}</div>
                 </div>
                 <div class="controls ${this._isActive ? 'expanded' : ''}">
                     <button class="button button-left" @click="${this.up}">
@@ -148,7 +151,7 @@ class ShutterBadge extends LitElement {
             ...config,
             label: config.label ?? 'Shutter',
             duration: config.duration ?? 10,
-            color: config.color ?? 'white',
+            color: config.color ?? 'var(--primary-color)',
         };
     }
 
