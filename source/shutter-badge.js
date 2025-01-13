@@ -73,12 +73,12 @@ class ShutterBadge extends LitElement {
                     <button class="button button-left" @click="${this.up}">
                         <ha-ripple></ha-ripple>
                         <span class="${this._isUpPressed ? 'active' : ''}">▲</span>
-                        <shutter-badge-ring1 class="${this._isUpPressed ? 'show' : 'hide'}" size="${controlSize}" color="${this.config.color}" duration="${this.config.duration}" />
+                        <shutter-badge-ring class="${this._isUpPressed ? 'show' : 'hide'}" size="${controlSize}" color="${this.config.color}" duration="${this.config.duration}" />
                     </button>
                     <button class="button button-right" @click="${this.down}">
                         <ha-ripple></ha-ripple>
                         <span class="${this._isDownPressed ? 'active' : ''}">▼</span>
-                        <shutter-badge-ring1 class="${this._isDownPressed ? 'show' : 'hide'}" size="${controlSize}" color="${this.config.color}" duration="${this.config.duration}" />
+                        <shutter-badge-ring class="${this._isDownPressed ? 'show' : 'hide'}" size="${controlSize}" color="${this.config.color}" duration="${this.config.duration}" />
                     </button>
                 </div>
             </div>
