@@ -2,6 +2,8 @@ import { LitElement, html, css } from 'https://cdn.jsdelivr.net/gh/lit/dist@3/al
 import shutterBadgeSheet from './shutter-badge.css' with { type: "css" };
 import './shutter-badge-ring.js';
 
+console.info("%cShutter Badge. v0.0.1", "color: lime; font-weight: bold;");
+
 function resolveCSSExpression(root, variableName, property = 'width') {
 
     const tempElement = document.createElement('div');
