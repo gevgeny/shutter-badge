@@ -1,0 +1,12 @@
+{
+  "name": "shuuter-badge",
+  "version": "0.0.1",
+  "description": "Shutter Badge for Home Assistant",
+  "keywords": [
+    "home-assistant",
+    "homeassistant",
+    "badge"
+  ],
+  "repository": "https://github.com/gevgeny/shutter-badge",
+  "author": "Eugene Gluhotrenko"
+}
