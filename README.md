@@ -4,6 +4,13 @@ A custom Home Assistant badge to control shutter directly from the dashboard.
 
 ![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](./demo.png)
 
+## Features
+
+- Display a badge with a customizable label, icon, and color.
+
+- Control the shutter's up and down movements by toggling associated switch entities.
+
+- Automatically stops the shutter after a configurable duration (in seconds) for full open or close.
 
 ## Installation
 
@@ -22,8 +29,15 @@ To use this custom badge, you need to load the JavaScript file into your Home As
 ---
 
 ## Configuration
+To use the `shutter-badge` on your Home Assistant dashboard, follow these steps:
 
-Here’s an example YAML configuration to add the `shutter-badge` to your dashboard:
+1. Open Your Dashboard in Edit Mode
+
+2. Click the Add Badge `[+]` button.
+
+3. Scroll to the bottom and select Manual.
+
+4. Paste the following YAML into the card editor and customize it for your needs
 
 ```yaml
 - type: custom:shutter-badge
