@@ -5,7 +5,7 @@ import {
 } from "https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js";
 import "./shutter-badge-ring.js";
 
-console.info("%cShutter Badge. v0.0.2", "color: lime; font-weight: bold;");
+console.info("%cShutter Badge. v1.0.0", "color: lime; font-weight: bold;");
 
 const styles = css`
   :host {
