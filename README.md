@@ -21,7 +21,7 @@ To use this custom badge, you need to load the JavaScript file into your Home As
 3. Add the following resource:
 
    ```yaml
-   URL: https://cdn.jsdelivr.net/gh/gevgeny/shutter-badge@master/source/shutter-badge.js
+   URL: https://cdn.jsdelivr.net/gh/gevgeny/shutter-badge@1.0.0/source/shutter-badge.js
    Type: JavaScript Module
    ```
 4. Save and refresh the page.
