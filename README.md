@@ -6,10 +6,12 @@ A custom Home Assistant badge to control shutters directly from the dashboard.
 
 ## Features
 
-- Customizable label, icon, and color
-- Control shutter up/down by toggling associated switch entities
-- Supports multiple shutters under a single badge
-- Automatically stops after a configurable duration for full open/close
+Designed for relay-based shutter controllers like Shelly 2PM — where UP and DOWN are two separate switch entities rather than a single cover entity.
+
+- **Compact by default, controls on hover.** Badge shows current direction and pulses when active. Hover reveals Up/Down buttons.
+- **Timed auto-stop.** Press Up or Down — the switch turns on for a configurable duration (e.g. 10 s for full travel), then turns off automatically. Press again to stop early.
+- **Group multiple shutters under one badge.** Pass a comma-separated list of entity IDs to control all shutters in a room or zone with a single tap — useful for "close all bedroom shutters" or "open all south-facing blinds."
+- **Customizable appearance.** Label, icon, and color adapt to your dashboard theme.
 
 ## Installation
 
