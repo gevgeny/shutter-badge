@@ -5,7 +5,7 @@ import {
 } from "https://cdn.jsdelivr.net/gh/lit/dist@3/all/lit-all.min.js";
 import "./shutter-badge-ring.js";
 
-console.info("%cShutter Badge. v1.0.0", "color: lime; font-weight: bold;");
+console.info("%cShutter Badge. v1.1.0", "color: lime; font-weight: bold;");
 
 const styles = css`
   :host {
@@ -143,7 +143,6 @@ class ShutterBadge extends LitElement {
   static properties = {
     hass: {},
     config: {},
-    _state: { state: true },
     _isExpanded: { state: true },
     _isUpPressed: { state: true },
     _isDownPressed: { state: true },
@@ -179,12 +178,11 @@ class ShutterBadge extends LitElement {
   }
 
   render() {
-    const switchUpState = this.hass?.states?.[this.config.switch_up];
-    const switchDownState = this.hass?.states?.[this.config.switch_down];
-    const lastChangedUp = new Date(switchUpState?.last_changed);
-    const lastChangedDown = new Date(switchDownState?.last_changed);
-    const isOn =
-      switchUpState?.state === "on" || switchDownState?.state === "on";
+    const upStates = this.config.switch_up.map(id => this.hass?.states?.[id]);
+    const downStates = this.config.switch_down.map(id => this.hass?.states?.[id]);
+    const isOn = upStates.some(s => s?.state === "on") || downStates.some(s => s?.state === "on");
+    const lastChangedUp = Math.max(...upStates.map(s => new Date(s?.last_changed).getTime()));
+    const lastChangedDown = Math.max(...downStates.map(s => new Date(s?.last_changed).getTime()));
     const controlSize = parseInt(
       resolveCSSExpression(this.shadowRoot, "--badge-control-size"),
       10
@@ -245,8 +243,6 @@ class ShutterBadge extends LitElement {
   }
 
   up() {
-    console.log("up", this.hass);
-
     this._isSwitchDownOn = false;
     clearTimeout(this._timerId);
     if (this._isSwitchUpOn) {
@@ -258,8 +254,6 @@ class ShutterBadge extends LitElement {
   }
 
   down() {
-    console.log("down", this.hass);
-
     this._isSwitchUpOn = false;
     clearTimeout(this._timerId);
     if (this._isSwitchDownOn) {
@@ -278,15 +272,6 @@ class ShutterBadge extends LitElement {
     this._isExpanded = true;
   }
 
-  updated(changedProperties) {
-    const entityId = this.config.entity;
-    const newState = this.hass?.states[entityId]?.state || "Unknown";
-
-    if (this._state !== newState) {
-      this._state = newState;
-    }
-  }
-
   setConfig(config) {
     if (!config.switch_up) {
       throw new Error("switch_up is required in configuration");
@@ -296,18 +281,21 @@ class ShutterBadge extends LitElement {
     }
     this.config = {
       ...config,
+      switch_up: String(config.switch_up).split(",").map(s => s.trim()),
+      switch_down: String(config.switch_down).split(",").map(s => s.trim()),
       label: config.label ?? "Shutter",
       duration: config.duration ?? 10,
       color: config.color ?? "var(--primary-color)",
     };
   }
 
-  turnSwitch(entityId, value) {
-    const domain = entityId.split(".")[0];
-
-    this.hass.callService(domain, value ? "turn_on" : "turn_off", {
-      entity_id: entityId,
-    });
+  turnSwitch(entityIds, value) {
+    for (const entityId of entityIds) {
+      const domain = entityId.split(".")[0];
+      this.hass.callService(domain, value ? "turn_on" : "turn_off", {
+        entity_id: entityId,
+      });
+    }
   }
 }
 

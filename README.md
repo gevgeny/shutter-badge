@@ -1,70 +1,72 @@
 # Shutter Badge for Home Assistant
 
-A custom Home Assistant badge to control shutter directly from the dashboard.
+A custom Home Assistant badge to control shutters directly from the dashboard.
 
-![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](./demo.png)
+![Shutter Badge demo](./demo.png)
 
 ## Features
 
-- Display a badge with a customizable label, icon, and color.
+Designed for relay-based shutter controllers like Shelly 2PM — where UP and DOWN are two separate switch entities rather than a single cover entity.
 
-- Control the shutter's up and down movements by toggling associated switch entities.
-
-- Automatically stops the shutter after a configurable duration (in seconds) for full open or close.
+- **Compact by default, controls on hover.** Badge shows current direction and pulses when active. Hover reveals Up/Down buttons.
+- **Timed auto-stop.** Press Up or Down — the switch turns on for a configurable duration (e.g. 10 s for full travel), then turns off automatically. Press again to stop early.
+- **Group multiple shutters under one badge.** Pass a comma-separated list of entity IDs to control all shutters in a room or zone with a single tap — useful for "close all bedroom shutters" or "open all south-facing blinds."
+- **Customizable appearance.** Label, icon, and color adapt to your dashboard theme.
 
 ## Installation
 
-To use this custom badge, you need to load the JavaScript file into your Home Assistant instance:
-
-1. Open the **Dashboard Settings** (three-dot menu in the top-right corner of your dashboard).
+1. Open **Dashboard Settings** (three-dot menu, top-right).
 2. Select **Resources**.
-3. Add the following resource:
+3. Add the resource:
 
    ```yaml
-   URL: https://cdn.jsdelivr.net/gh/gevgeny/shutter-badge@1.0.0/source/shutter-badge.js
+   URL: https://cdn.jsdelivr.net/gh/gevgeny/shutter-badge@1.1.0/source/shutter-badge.js
    Type: JavaScript Module
    ```
 4. Save and refresh the page.
 
----
-
 ## Configuration
-To use the `shutter-badge` on your Home Assistant dashboard, follow these steps:
 
-1. Open Your Dashboard in Edit Mode
+1. Open your dashboard in Edit Mode.
+2. Click the Add Badge **[+]** button.
+3. Scroll to the bottom and select **Manual**.
+4. Paste the YAML below and customize it.
 
-2. Click the Add Badge `[+]` button.
-
-3. Scroll to the bottom and select Manual.
-
-4. Paste the following YAML into the card editor and customize it for your needs
+**Single shutter:**
 
 ```yaml
-- type: custom:shutter-badge
-  label: Shutter               
-  icon: mdi:window-shutter     
-  color: var(--orange-color)   
-  switch_up: switch.shellyplus2pm_2cbcaa388f54_switch_0   
-  switch_down: switch.shellyplus2pm_2cbcaa388f54_switch_1 
-  duration: 10                 
+type: custom:shutter-badge
+label: Shutter
+icon: mdi:window-shutter
+color: var(--orange-color)
+switch_up: switch.shellyplus2pm_switch_0
+switch_down: switch.shellyplus2pm_switch_1
+duration: 10
+```
+
+**Multiple shutters under one badge:**
+
+```yaml
+type: custom:shutter-badge
+label: All Shutters
+icon: mdi:window-shutter
+color: var(--orange-color)
+switch_up: switch.shutter1_up, switch.shutter2_up, switch.shutter3_up
+switch_down: switch.shutter1_down, switch.shutter2_down, switch.shutter3_down
+duration: 10
 ```
 
 ### Configuration Options
 
-| Option        | Type     | Required | Default                | Description                                                |
-| ------------- | -------- | -------- | ---------------------- | ---------------------------------------------------------- |
-| `label`       | `string` | No       | `Shutter`              | Label to display on the badge.                             |
-| `icon`        | `string` | No       | `mdi:window-shutter`   | Material Design icon for the badge.                        |
-| `color`       | `string` | No       | `var(--primary-color)` | Badge color (CSS color or variable).                       |
-| `switch_up`   | `string` | Yes      | -                      | Entity ID of the switch controlling the UP direction.      |
-| `switch_down` | `string` | Yes      | -                      | Entity ID of the switch controlling the DOWN direction.    |
-| `duration`    | `number` | No       | `10`                   | Time in seconds to keep the switch on for full open/close. |
+| Option        | Type     | Required | Default                | Description                                                         |
+| ------------- | -------- | -------- | ---------------------- | ------------------------------------------------------------------- |
+| `label`       | `string` | No       | `Shutter`              | Label displayed on the badge.                                       |
+| `icon`        | `string` | No       | —                      | Material Design icon (e.g. `mdi:window-shutter`).                  |
+| `color`       | `string` | No       | `var(--primary-color)` | Badge color — CSS value or variable.                                |
+| `switch_up`   | `string` | Yes      | —                      | Entity ID(s) for the UP direction. Comma-separate for multiple.     |
+| `switch_down` | `string` | Yes      | —                      | Entity ID(s) for the DOWN direction. Comma-separate for multiple.   |
+| `duration`    | `number` | No       | `10`                   | Seconds to keep the switch on for a full open/close.                |
 
 ## License
 
 This project is open-source and available under the [MIT License](LICENSE).
-
----
-
-Enjoy seamless shutter control with your Home Assistant dashboard!
-
